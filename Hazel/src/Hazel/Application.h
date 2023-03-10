@@ -1,6 +1,8 @@
 #pragma once
 #include "Core.h"
-
+#include "Events/Event.h"
+#include "hzpch.h"
+#include <stdio.h>
 
 namespace Hazel {
 	class  HAZEL_API  Application
