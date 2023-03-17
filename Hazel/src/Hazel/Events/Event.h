@@ -36,7 +36,7 @@ namespace Hazel {
 #define EVENT_CLASS_CATEGORY(category) virtual int GetCategoryFlags() const override { return category; }
 
 
-	class   Event
+	class  Event
 	{
 		
 
@@ -50,7 +50,7 @@ namespace Hazel {
 		{
 			return GetCategoryFlags() & category;
 		}
-	protected:
+	
 		bool m_Handled = false;
 	};
 
@@ -70,7 +70,7 @@ namespace Hazel {
 		{
 			if (m_Event.GetEventType() == T::GetStaticType())
 			{
-				m_Event.Handled = func(*(T*)&m_Event);
+				m_Event.m_Handled = func(*(T*)&m_Event);
 				return true;
 			}
 			return false;
