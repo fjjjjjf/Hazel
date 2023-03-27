@@ -54,31 +54,40 @@ namespace Hazel {
 		bool m_Handled = false;
 	};
 
+	// Class Event Dispatcher
 	class EventDispatcher
 	{
+		// Define EventFunc() Template
+		// With T& input and return bool
 		template<typename T>
-		using EventFn = std::function<bool(T&)>;
+		using EventFunc = std::function<bool(T&)>;
 	public:
+		// Bind the event to this Dispatcher,
+		// Each Dispatcher can only Dispatch 1 Event
 		EventDispatcher(Event& event)
-			: m_Event(event)
-		{
-		}
+			:m_Event(event) {}
 
-		// F will be deduced by the compiler
+		// Make a template function to Dispatch the event
+		// The input parameter is a Function
 		template<typename T>
-		bool Dispatch(EventFn<T> func)
-		{
+		bool Dispatch(EventFunc<T> Func) {
+			// Check if the Event Type of the Event bond to this dispatcher
+			// matches with the function we are using.
+			// Because if they are not the same type, then we cannot guarantee
+			// that the function is actually valid.
 			if (m_Event.GetEventType() == T::GetStaticType())
 			{
-				m_Event.m_Handled = func(*(T*)&m_Event);
+				// Whatever it is, this certain function of this Event will be called,
+				// And the function will decide whether to consume the event or not.
+				m_Event.m_Handled = Func(*(T*)&m_Event);
 				return true;
 			}
 			return false;
 		}
+
 	private:
 		Event& m_Event;
 	};
-
 	inline std::ostream& operator<<(std::ostream& os, const Event& e)
 	{
 		return os << e.ToString();

@@ -20,3 +20,5 @@
 
 
 #define BIT(X) (1 << X)
+
+#define HZ_BIND_EVENT_FN(fn) std::bind(&ImGuiLayer::fn,this,std::placeholders::_1)

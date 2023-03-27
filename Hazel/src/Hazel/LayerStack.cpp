@@ -8,12 +8,14 @@ namespace Hazel {
 	}
 	LayerStack::~LayerStack() {
 		for (Layer* layer : m_Layers) {
+			layer->OnDetch();
 			delete layer;
 		}
 	}
 
 	void LayerStack::PushLayer(Layer* layer) {
 		m_LayerInsert = m_Layers.emplace(m_LayerInsert, layer);
+		
 	}
 	void LayerStack::PushOverlay(Layer* layer) {
 		m_Layers.emplace_back(layer);
@@ -22,6 +24,7 @@ namespace Hazel {
 		auto it = std::find(m_Layers.begin(), m_Layers.end(), layer);
 		if (it != m_Layers.end())
 		{
+			layer->OnDetch();
 			m_Layers.erase(it);
 			m_LayerInsert--;
 		}
